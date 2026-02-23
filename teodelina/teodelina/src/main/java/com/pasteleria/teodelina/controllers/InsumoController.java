@@ -22,7 +22,7 @@ public class InsumoController {
     @Autowired
     private InsumoService insumoService;
 
-    @PostMapping("/crerinsumo")
+    @PostMapping("/crearinsumo")
     public String crearInsumo(@RequestBody Insumo insumo){
         insumoService.crearInsumo(insumo);
         return "¡Se creo exitosamente el insumo!";
