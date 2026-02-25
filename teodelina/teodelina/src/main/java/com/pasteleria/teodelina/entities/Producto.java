@@ -1,9 +1,12 @@
 package com.pasteleria.teodelina.entities;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Producto{
@@ -15,6 +18,8 @@ public class Producto{
     private String categoria;
     private Boolean sintaac;
     private Double precio;
+    @OneToMany(mappedBy = "producto")
+    private List<ItemReceta> receta;
     
     public Producto(){}
 
@@ -26,6 +31,16 @@ public class Producto{
         this.sintaac = sintaac;
         this.precio = precio;
     }
+
+    public Double getCostoTotal() {
+    if (this.receta == null || this.receta.isEmpty()) {
+        return 0.0;
+    }
+    
+    return this.receta.stream()
+            .mapToDouble(item -> item.getInsumo().getPrecioUnitario() * item.getCantidad())
+            .sum();
+}
 
     public Long getId() {
         return id;
@@ -73,6 +88,14 @@ public class Producto{
 
     public void setPrecio(Double precio) {
         this.precio = precio;
+    }
+
+    public List<ItemReceta> getReceta() {
+        return receta;
+    }
+
+    public void setReceta(List<ItemReceta> receta) {
+        this.receta = receta;
     }
 
     

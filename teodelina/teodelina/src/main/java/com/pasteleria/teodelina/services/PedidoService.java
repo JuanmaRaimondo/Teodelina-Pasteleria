@@ -1,5 +1,6 @@
 package com.pasteleria.teodelina.services;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +51,17 @@ public class PedidoService {
 
         }
         return null;
+    }
+
+    public Double calcularIngresosPorEstado(String estado) {
+        return pedidorepo.sumarIngresosPorEstado(estado);
+    }
+
+    public Double calcularTicketPromedioPorEstado(String estado){
+        return pedidorepo.calcularTicketPromedioPorEstado(estado);
+    }
+
+    public Double sumarIngresosEntreFechas(LocalDate inicio, LocalDate fin){
+        return pedidorepo.sumarIngresosEntreFechas(inicio, fin);
     }
 }

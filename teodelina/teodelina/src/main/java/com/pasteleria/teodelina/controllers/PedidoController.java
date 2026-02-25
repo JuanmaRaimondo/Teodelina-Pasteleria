@@ -1,8 +1,10 @@
 package com.pasteleria.teodelina.controllers;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -49,5 +51,24 @@ public class PedidoController {
     public String borrarPedido(@PathVariable Long id){
         pedidoService.borrarPedido(id);
         return "¡Se ha borrado exitosamente el pedido!";
+    }
+
+    
+    @GetMapping("/ingresos/{estado}")
+    public Double obtenerIngresos(@PathVariable("estado") String estado) {
+        return pedidoService.calcularIngresosPorEstado(estado);
+    }
+
+    @GetMapping("/promedio/{estado}")
+    public Double calcularTicket(@PathVariable("estado") String estado) {
+        return pedidoService.calcularTicketPromedioPorEstado(estado);
+    }
+
+    @GetMapping("/ingresos/desde/{inicio}/hasta/{fin}")
+    public Double ingresosPorFecha(
+            @PathVariable("inicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
+            @PathVariable("fin") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fin) {
+        
+        return pedidoService.sumarIngresosEntreFechas(inicio, fin);
     }
 }
