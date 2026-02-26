@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pasteleria.teodelina.entities.Insumo;
 import com.pasteleria.teodelina.services.InsumoService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/insumo")
 public class InsumoController {
@@ -23,7 +25,7 @@ public class InsumoController {
     private InsumoService insumoService;
 
     @PostMapping("/crearinsumo")
-    public String crearInsumo(@RequestBody Insumo insumo){
+    public String crearInsumo(@Valid @RequestBody Insumo insumo){
         insumoService.crearInsumo(insumo);
         return "¡Se creo exitosamente el insumo!";
     }

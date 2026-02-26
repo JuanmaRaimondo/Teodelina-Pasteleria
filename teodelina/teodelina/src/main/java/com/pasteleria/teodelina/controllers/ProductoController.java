@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pasteleria.teodelina.entities.Producto;
 import com.pasteleria.teodelina.services.ProductoService;
 
+import jakarta.validation.Valid;
+
 
 @RestController
 @RequestMapping("/producto")
@@ -36,7 +38,7 @@ public class ProductoController {
     }
 
     @PostMapping("/crear")
-    public String crearProducto(@RequestBody Producto producto){
+    public String crearProducto(@Valid @RequestBody Producto producto){
         productoService.crearProducto(producto);
         return "¡Su producto ha sido creado exitosamente!";
     }
@@ -54,5 +56,11 @@ public class ProductoController {
 
          return "¡Se ha editado correctamente el producto seleccionado!";
     }
+
+    @PostMapping("/fabricar/{id}")
+    public String fabricarProducto(@PathVariable Long id) {
+        return productoService.fabricarProducto(id);
+    }
     
+
 }

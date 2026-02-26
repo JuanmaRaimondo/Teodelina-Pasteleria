@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Min;
 
 @Entity
 public class Insumo {
@@ -14,12 +15,13 @@ public class Insumo {
     private String nombre;
     private String marca;
     private Double precioUnitario;
-    private Integer stock;
+    @Min(value = 0, message = "El stock del insumo no puede ser menor a cero")
+    private Double stock;
     private String unidadDeMedida;
 
     public Insumo(){}
 
-    public Insumo(Long id, String nombre, String marca, Double precioUnitario, Integer stock, String unidadDeMedida) {
+    public Insumo(Long id, String nombre, String marca, Double precioUnitario, Double stock, String unidadDeMedida) {
         this.id = id;
         this.nombre = nombre;
         this.marca = marca;
@@ -60,11 +62,11 @@ public class Insumo {
         this.precioUnitario = precioUnitario;
     }
 
-    public Integer getStock() {
+    public Double getStock() {
         return stock;
     }
 
-    public void setStock(Integer stock) {
+    public void setStock(Double stock) {
         this.stock = stock;
     }
 

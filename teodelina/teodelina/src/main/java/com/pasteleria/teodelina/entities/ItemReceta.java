@@ -1,6 +1,7 @@
 package com.pasteleria.teodelina.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,7 +17,7 @@ public class ItemReceta {
     private Long id;
     private Double cantidad;
     @ManyToOne
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Producto producto;
     @ManyToOne
     private Insumo insumo;

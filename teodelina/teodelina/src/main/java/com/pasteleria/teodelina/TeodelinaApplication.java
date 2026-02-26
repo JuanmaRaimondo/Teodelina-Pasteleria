@@ -8,7 +8,7 @@ public class TeodelinaApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(TeodelinaApplication.class, args);
-		System.out.println("Arrancó");
+		System.out.println("Arranco");
 	}
 
 }
