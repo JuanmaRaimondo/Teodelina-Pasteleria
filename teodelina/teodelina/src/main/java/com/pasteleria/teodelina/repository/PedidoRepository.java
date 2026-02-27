@@ -1,11 +1,13 @@
 package com.pasteleria.teodelina.repository;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.pasteleria.teodelina.entities.Cliente;
 import com.pasteleria.teodelina.entities.Pedido;
 
 public interface PedidoRepository extends JpaRepository<Pedido, Long> {
@@ -18,4 +20,7 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 
     @Query("SELECT SUM(p.montoTotal) FROM Pedido as p WHERE p.diaEntrega BETWEEN :inicio AND :fin")
      Double sumarIngresosEntreFechas(@Param("inicio") LocalDate inicio, @Param("fin") LocalDate fin);
+
+     // En PedidoRepository.java (Interfaz)
+    List<Pedido> findByCliente(Cliente cliente);
 }

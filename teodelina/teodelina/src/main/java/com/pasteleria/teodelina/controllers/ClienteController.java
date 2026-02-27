@@ -3,6 +3,7 @@ package com.pasteleria.teodelina.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pasteleria.teodelina.entities.Cliente;
+import com.pasteleria.teodelina.entities.Usuario;
 import com.pasteleria.teodelina.services.ClienteService;
 
 @RestController
@@ -34,10 +36,17 @@ public class ClienteController {
     }
 
     @PostMapping("/crear")
-    public String crearCliente(@RequestBody Cliente cliente){
-        clienteService.crearCliente(cliente);
-        return "¡Se ha creado exitosamente el cliente!";
-    }
+public Cliente crearCliente(
+        @RequestBody Cliente clienteNuevo, // 1. Atrapa el JSON con nombre, dirección, etc.
+        @AuthenticationPrincipal Usuario usuarioLogueado // 2. Atrapa quién mandó el Token
+) {
+    
+    // 3. Usamos el método que armaste en el Service para unirlos y guardarlos
+    return clienteService.crearPerfilCliente(clienteNuevo, usuarioLogueado);
+    
+}
+
+
 
     @DeleteMapping("/borrar/{id}")
     public String borrarCliente(@PathVariable Long id){

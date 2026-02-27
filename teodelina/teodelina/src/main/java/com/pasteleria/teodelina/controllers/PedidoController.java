@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pasteleria.teodelina.entities.Pedido;
+import com.pasteleria.teodelina.entities.Usuario;
+import com.pasteleria.teodelina.services.ClienteService;
 import com.pasteleria.teodelina.services.PedidoService;
 
 @RestController
@@ -23,6 +26,9 @@ public class PedidoController {
     
     @Autowired
     private PedidoService pedidoService;
+
+    @Autowired
+    private ClienteService clienteService;
 
     @PostMapping("/crear")
     public String crearPedido(@RequestBody Pedido pedido){
@@ -37,9 +43,24 @@ public class PedidoController {
     }
 
     @GetMapping("/listapedido")
-    public List<Pedido> listaPedidos(){
-        List<Pedido> listaDePedidos = pedidoService.traerPedidos();
-        return listaDePedidos;
+    public List<Pedido> listaPedidos(@AuthenticationPrincipal Usuario usuarioLogueado){
+        boolean esAdmin = usuarioLogueado.getAuthorities().stream()
+                        .anyMatch(permiso -> permiso.getAuthority().equals("ROLE_ADMIN"));
+
+    if (esAdmin) {
+        System.out.println("👨‍🍳 Es ADMIN: Mostrando todos los pedidos de la pastelería.");
+        // Devuelve TODOS los pedidos
+        return pedidoService.traerPedidos(); 
+        
+    } else {
+        System.out.println("🛍️ Es CLIENTE: Buscando los pedidos personales de: " + usuarioLogueado.getUsername());
+        
+        // 1. Usamos la herramienta nueva para encontrar el Perfil de Cliente de este usuario
+        var clienteActual = clienteService.buscarClientePorUsuario(usuarioLogueado);
+        
+        // 2. Usamos la otra herramienta nueva para traer solo los pedidos de ese cliente
+        return pedidoService.traerPedidosPorCliente(clienteActual);
+    }
     }
 
     @PatchMapping("/editar/{id}")

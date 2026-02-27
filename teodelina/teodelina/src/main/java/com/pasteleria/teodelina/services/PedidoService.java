@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.pasteleria.teodelina.entities.Cliente;
 import com.pasteleria.teodelina.entities.Pedido;
 import com.pasteleria.teodelina.entities.Producto;
 import com.pasteleria.teodelina.exceptions.RecursoNoEncontradoException;
@@ -50,6 +51,11 @@ public class PedidoService {
         List<Pedido> listaDePedidos = pedidorepo.findAll();
         return listaDePedidos;
     }
+
+    public List<Pedido> traerPedidosPorCliente(Cliente cliente) {
+    
+    return pedidorepo.findByCliente(cliente); 
+}
 
     public Pedido editarPedido(Long id, Pedido pedido){
 

@@ -2,7 +2,6 @@ package com.pasteleria.teodelina.entities;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 
+
 @Entity
 public class Usuario implements UserDetails {
     @Id
@@ -21,6 +21,7 @@ public class Usuario implements UserDetails {
     private String username;
     private String password;
     private String rol;
+    
 
     public Usuario(){} 
     
@@ -30,6 +31,7 @@ public class Usuario implements UserDetails {
         this.username = username;
         this.password = password;
         this.rol = rol;
+        
     }
 
     
@@ -61,7 +63,7 @@ public class Usuario implements UserDetails {
     public void setRol(String rol) {
         this.rol = rol;
     }
-
+ 
 
   // 1. EL ROL: Convertimos tu texto "ADMIN" al idioma de Spring Security
     @Override
@@ -106,4 +108,5 @@ public class Usuario implements UserDetails {
     public boolean isEnabled() {
         return true; // ¿El usuario está habilitado? Sí.
     }
+
 }

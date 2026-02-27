@@ -32,33 +32,44 @@ public class SecurityFiltrer extends OncePerRequestFilter {
     @Qualifier("handlerExceptionResolver")
     private HandlerExceptionResolver resolver;
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        // 1. Obtener el token del encabezado (Header)
-        var authHeader = request.getHeader("Authorization");
+   @Override
+protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    
+    System.out.println("🚨 ATENCIÓN: Llegó una petición " + request.getMethod() + " a la ruta: " + request.getRequestURI());
+    
+    // 1. Obtener el token del encabezado (Header)
+    var authHeader = request.getHeader("Authorization");
 
-        if (authHeader != null) {
-           try {
-        var token = authHeader.replace("Bearer ", "");
-        var nombreUsuario = tokenService.getSubject(token); 
+    if (authHeader != null) {
+        try {
+            var token = authHeader.replace("Bearer ", "");
+            System.out.println("1. Token limpio recibido: " + token); // <--- Micrófono 1
 
-                    if (nombreUsuario != null) {   
-                        var usuario = usuarioRepository.findByUsername(nombreUsuario)
-                                        .orElseThrow(() -> new RuntimeException("Usuario no encontrado")); 
-                        var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
-                        
-                        SecurityContextHolder.getContext().setAuthentication(authentication);
-                    }
+            var nombreUsuario = tokenService.getSubject(token); 
+            System.out.println("2. Usuario extraído del token: " + nombreUsuario); // <--- Micrófono 2
+
+            if (nombreUsuario != null) {   
+                var usuario = usuarioRepository.findByUsername(nombreUsuario)
+                                .orElseThrow(() -> new RuntimeException("Usuario no encontrado en la BD")); 
+                
+                System.out.println("3. Permisos del usuario: " + usuario.getAuthorities()); // <--- Micrófono 3
+
+                var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                System.out.println("4. ¡Usuario autenticado exitosamente en el contexto!"); // <--- Micrófono 4
+            }
         } catch (RuntimeException e) {
-        // Por ahora, solo lo imprimimos para ver que funciona
-        resolver.resolveException(request, response, null, e);
-        
-        
+            System.out.println("ERROR EN EL FILTRO: " + e.getMessage());
+            resolver.resolveException(request, response, null, e);
             
+            // 🛑 CORTAMOS ACÁ: Si el token está mal, devolvemos el error y frenamos la petición.
+            return; 
         }
-
-        // 2. Pase lo que pase, que la petición siga su curso
-        filterChain.doFilter(request, response);
     }
+
+    // 🟢 LA LLAVE MÁGICA 🟢
+    // Esta línea le dice a la petición: "Ya te revisé, podés seguir tu camino hacia el Controller".
+    // Tiene que estar sí o sí afuera del 'if' para que el Login (que no tiene token) pueda pasar.
+    filterChain.doFilter(request, response);
 }
 }

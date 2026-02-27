@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Cliente {
@@ -16,17 +18,21 @@ public class Cliente {
     private String direccion;
     private String telefono;
     private String usuarioInstagram;
+    @OneToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 
     public Cliente(){}
 
     public Cliente(Long id, String nombre, String apellido, String direccion, String telefono,
-            String usuarioInstagram) {
+            String usuarioInstagram, Usuario usuario ) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.direccion = direccion;
         this.telefono = telefono;
         this.usuarioInstagram = usuarioInstagram;
+        this.usuario = usuario;
     }
 
     public Long getId() {
@@ -75,6 +81,14 @@ public class Cliente {
 
     public void setUsuarioInstagram(String usuarioInstagram) {
         this.usuarioInstagram = usuarioInstagram;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     

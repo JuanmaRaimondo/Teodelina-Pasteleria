@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.pasteleria.teodelina.entities.Cliente;
+import com.pasteleria.teodelina.entities.Usuario;
 import com.pasteleria.teodelina.repository.ClienteRepository;
 
 @Service
@@ -34,6 +35,13 @@ public class ClienteService {
         return listaClientes;
     }
 
+    
+public Cliente buscarClientePorUsuario(Usuario usuario) {
+    
+    return clienteRepo.findByUsuario(usuario)
+            .orElseThrow(() -> new RuntimeException("Este usuario no tiene un cliente asociado"));
+}
+
     public Cliente editarCliente(Long id, Cliente cliente){
         Cliente clienteEncontrado = clienteRepo.findById(id).orElse(null);
 
@@ -47,4 +55,13 @@ public class ClienteService {
         }
         return null;
     }
+
+    public Cliente crearPerfilCliente(Cliente nuevoCliente, Usuario usuarioLogueado) {
+    
+    // 1. Le decimos al cliente: "Tu dueño es este usuario que acaba de mandar el token"
+    nuevoCliente.setUsuario(usuarioLogueado);
+    
+    // 2. Guardamos el cliente en la base de datos (Hibernate va a guardar también el usuario_id)
+    return clienteRepo.save(nuevoCliente);
+}
 }
