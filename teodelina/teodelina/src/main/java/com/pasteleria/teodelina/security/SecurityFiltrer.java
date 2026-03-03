@@ -62,12 +62,12 @@ protected void doFilterInternal(HttpServletRequest request, HttpServletResponse 
             System.out.println("ERROR EN EL FILTRO: " + e.getMessage());
             resolver.resolveException(request, response, null, e);
             
-            // 🛑 CORTAMOS ACÁ: Si el token está mal, devolvemos el error y frenamos la petición.
+           
             return; 
         }
     }
 
-    // 🟢 LA LLAVE MÁGICA 🟢
+    
     // Esta línea le dice a la petición: "Ya te revisé, podés seguir tu camino hacia el Controller".
     // Tiene que estar sí o sí afuera del 'if' para que el Login (que no tiene token) pueda pasar.
     filterChain.doFilter(request, response);

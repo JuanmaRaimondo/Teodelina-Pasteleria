@@ -3,6 +3,7 @@ package com.pasteleria.teodelina.entities;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,10 +14,12 @@ public class BorradorInstagram {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(columnDefinition = "TEXT")
     private String texto;
     private String promptImagen;
     private String estado; 
     private String feedBack;
+    private String campania;
     private LocalDate fechaCreacion;
     private LocalDateTime fechaPublicacionSugerida;
 
@@ -26,7 +29,7 @@ public class BorradorInstagram {
     }
 
     public BorradorInstagram(Long id, String texto, String promptImagen, String estado, String feedBack,
-            LocalDate fechaCreacion, LocalDateTime fechaPublicacionSugerida) {
+            LocalDate fechaCreacion, LocalDateTime fechaPublicacionSugerida, String campania) {
         this.id = id;
         this.texto = texto;
         this.promptImagen = promptImagen;
@@ -90,6 +93,14 @@ public class BorradorInstagram {
 
     public void setFechaPublicacionSugerida(LocalDateTime fechaPublicacionSugerida) {
         this.fechaPublicacionSugerida = fechaPublicacionSugerida;
+    }
+
+    public String getCampania() {
+        return campania;
+    }
+
+    public void setCampania(String campania) {
+        this.campania = campania;
     }
 
     

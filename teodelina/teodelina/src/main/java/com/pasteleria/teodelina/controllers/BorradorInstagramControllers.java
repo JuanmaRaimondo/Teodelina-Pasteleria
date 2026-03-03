@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pasteleria.teodelina.entities.BorradorInstagram;
@@ -47,5 +48,23 @@ public class BorradorInstagramControllers {
     @PatchMapping("/editar/{id}")
     public BorradorInstagram editarBorrador(@PathVariable Long id, @RequestBody BorradorInstagram borrador){
         return borradorservice.editarBorrador(id, borrador);
+    }
+
+    @PostMapping("/generar")
+    public BorradorInstagram generarPost(@RequestParam String campania,@RequestParam String productos){
+       BorradorInstagram borrador = borradorservice.generarBorradorInstagram(campania, productos);
+        return borrador;
+    }
+
+    @PatchMapping("/publicar/{id}")
+    public BorradorInstagram editarPost(@PathVariable Long id){
+       BorradorInstagram borrador = borradorservice.aprobarBorrador(id);
+        return borrador;
+    }
+
+    @PatchMapping("/feedback/{id}")
+    public BorradorInstagram feedbackNuevo(@PathVariable Long id, @RequestParam String feedback){
+        BorradorInstagram cambiarFeedback = borradorservice.feedBackBorrador(id, feedback);
+        return cambiarFeedback;
     }
 }

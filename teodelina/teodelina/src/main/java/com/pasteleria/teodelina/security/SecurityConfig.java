@@ -37,6 +37,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/usuario/login").permitAll()
                 .requestMatchers(HttpMethod.POST, "/usuario/registrar").permitAll()
                 .requestMatchers(HttpMethod.DELETE, "/producto/**").hasRole("ADMIN")
+                .requestMatchers("/borradorinstagram/**").permitAll()
                 .anyRequest().authenticated()
             )
             .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
