@@ -26,9 +26,11 @@ public class ProductoService {
         return  productoRepo.save(producto);
     }
 
-    public String borrarProducto(Long id){
-        productoRepo.deleteById(id);
-        return "¡Producto borrado exitosamente!";
+    public void borrarProducto(Long id) {
+        // En vez de usar productoRepository.deleteById(id); hacemos esto:
+        Producto producto = productoRepo.findById(id).orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        producto.setActivo(false); // Lo "ocultamos"
+        productoRepo.save(producto); // Guardamos el cambio de estado
     }
 
     public Producto buscarProducto(Long id){
@@ -50,10 +52,8 @@ public class ProductoService {
         return null;
     }
 
-    public List<Producto> listarProductos(){
-        List<Producto> listaProductos = productoRepo.findAll();
-
-        return listaProductos;
+    public List<Producto> traerLista() {
+        return productoRepo.findByActivoTrue(); 
     }
 
     public String fabricarProducto(Long id){
@@ -90,6 +90,6 @@ public class ProductoService {
             insumo.setStock(nuevoStock);
             insumoRepo.save(insumo);
         }
-        return "";
+        return "¡Producto fabricado con éxito! Se descontó el stock de los insumos.";
     }
 }

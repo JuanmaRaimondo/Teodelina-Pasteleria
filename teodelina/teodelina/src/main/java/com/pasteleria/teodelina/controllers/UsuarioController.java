@@ -26,7 +26,7 @@ public class UsuarioController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    // 1. ¡FALTABA ESTA LÍNEA! Hay que presentar al TokenService
+    
     @Autowired
     private TokenService tokenService; 
 

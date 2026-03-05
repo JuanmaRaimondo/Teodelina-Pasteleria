@@ -27,7 +27,7 @@ public class ProductoController {
 
     @GetMapping("/traerlista")
     public List<Producto> traerListaProductos(){
-        List<Producto> listaProductos = productoService.listarProductos();
+        List<Producto> listaProductos = productoService.traerLista();
         return listaProductos;
     }
 

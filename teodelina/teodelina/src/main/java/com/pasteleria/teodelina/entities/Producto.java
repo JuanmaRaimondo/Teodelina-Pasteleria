@@ -20,6 +20,7 @@ public class Producto{
     private String descripcion;
     private String categoria;
     private Boolean sintaac;
+    private Boolean activo = true;
     @Min(value = 0, message = "El precio del producto no puede ser negativo")
     private Double precio;
     @OneToMany(mappedBy = "producto")
@@ -27,13 +28,14 @@ public class Producto{
     
     public Producto(){}
 
-    public Producto(Long id, String nombre, String descripcion, String categoria, Boolean sintaac, Double precio) {
+    public Producto(Long id, String nombre, String descripcion, String categoria, Boolean sintaac, Double precio, Boolean activo) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.categoria = categoria;
         this.sintaac = sintaac;
         this.precio = precio;
+        this.activo = activo;
     }
 
     public Double getCostoTotal() {
@@ -122,6 +124,14 @@ public class Producto{
 
     public void setReceta(List<ItemReceta> receta) {
         this.receta = receta;
+    }
+
+    public Boolean getActivo() {
+        return activo;
+    }
+
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
     }
 
     

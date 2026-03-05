@@ -29,9 +29,11 @@ public class ItemRecetaController {
     }
 
     @GetMapping("/traer")
-    public String traerLista(@RequestBody ItemReceta itemReceta){
-        recetaService.listarRecetas();
-        return "Estos son los ingredientes";
+    public List<ItemReceta> traerLista(){
+        // 1. Guardamos la lista que nos trae el service
+        List<ItemReceta> listaCompleta = recetaService.listarRecetas();
+        // 2. Se la devolvemos a React (o Postman) en formato JSON
+        return listaCompleta;
     }
 
     @DeleteMapping("/borrar/{id}")

@@ -1,0 +1,232 @@
+/* src/pages/Dashboard.css */
+
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 0.5rem 0;
+    width: 100%;
+}
+
+/* 1. Header Amigable */
+.dashboard-header {
+    margin-bottom: 0.5rem;
+}
+
+.dashboard-header h1 {
+    font-size: 1.8rem;
+    color: #2c2523;
+    /* Tono café muy oscuro */
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.dashboard-header p {
+    color: #8c827d;
+    margin: 0.2rem 0 0;
+    font-size: 0.95rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    .dashboard-header h1 {
+        color: #f7f3f1;
+    }
+
+    .dashboard-header p {
+        color: #b5aaa5;
+    }
+}
+
+/* 2. Tarjetas Financieras */
+.cards-container {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+}
+
+.kpi-card {
+    flex: 1;
+    padding: 1.2rem;
+    border-radius: 15px;
+    /* Aspecto nativo */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+@media (prefers-color-scheme: dark) {
+    .kpi-card {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+}
+
+/* "Ingresos por Señas" (Izquierda) */
+.kpi-card.primary {
+    background: linear-gradient(135deg, #FFE4E8, #FFBAC8);
+    /* Rosado vainilla / frutilla pálido */
+}
+
+@media (prefers-color-scheme: dark) {
+    .kpi-card.primary {
+        background: linear-gradient(135deg, #a53245, #7d2030);
+    }
+}
+
+/* "Ticket Promedio" (Derecha) */
+.kpi-card.secondary {
+    background: linear-gradient(135deg, #E0F7FA, #B2EBF2);
+    /* Cian claro fresco */
+}
+
+@media (prefers-color-scheme: dark) {
+    .kpi-card.secondary {
+        background: linear-gradient(135deg, #1b6875, #124c56);
+    }
+}
+
+.kpi-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.55);
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+@media (prefers-color-scheme: dark) {
+    .kpi-label {
+        color: rgba(255, 255, 255, 0.7);
+    }
+}
+
+.kpi-value {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #1a1512;
+}
+
+@media (prefers-color-scheme: dark) {
+    .kpi-value {
+        color: #ffffff;
+    }
+}
+
+/* 3. Botón de IA y 4. Contenedor de Consejo */
+.ai-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.ai-button {
+    width: 100%;
+    background: linear-gradient(135deg, #FF6B82, #D14A60);
+    /* Color principal frutilla */
+    color: #ffffff;
+    border: none;
+    padding: 1.1rem;
+    border-radius: 15px;
+    /* Redondeado iOS */
+    font-size: 1.1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    box-shadow: 0 6px 20px rgba(209, 74, 96, 0.35);
+    /* Glow shadow colorida */
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease;
+    outline: none;
+    /* Quita brillos al presionar en iOS Safari */
+    -webkit-tap-highlight-color: transparent;
+}
+
+.emoji-icon {
+    font-size: 1.3rem;
+    /* Emojis como íconos nítidos */
+}
+
+.ai-button:active {
+    transform: scale(0.96);
+    box-shadow: 0 2px 10px rgba(209, 74, 96, 0.2);
+}
+
+.ai-button:disabled {
+    opacity: 0.8;
+    cursor: wait;
+    transform: none;
+}
+
+/* Animación y Spinner de lucide-react */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.icon-spinner {
+    animation: spin 1s linear infinite;
+}
+
+/* Contenedor colapsable del consejo */
+.ai-advice-container {
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+}
+
+.ai-advice-container.open {
+    max-height: 400px;
+    /* Suficiente para el texto */
+    opacity: 1;
+}
+
+/* La tarjeta literal que contiene el consejo */
+.ai-advice-box {
+    background: white;
+    border-radius: 15px;
+    padding: 1.2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border-left: 5px solid #D14A60;
+    /* Acento del borde */
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #4a403d;
+    margin-top: 0.5rem;
+}
+
+.ai-advice-box strong {
+    display: flex;
+    align-items: center;
+    color: #D14A60;
+    margin-bottom: 0.5rem;
+    font-size: 1.05rem;
+}
+
+.ai-advice-box p {
+    margin: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+    .ai-advice-box {
+        background: #2a2422;
+        color: #e3dcd9;
+        border-left: 5px solid #FF6B82;
+    }
+
+    .ai-advice-box strong {
+        color: #FF6B82;
+    }
+}
