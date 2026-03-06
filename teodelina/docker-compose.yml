@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  # -----------------------------------------
+  # 1. LA BASE DE DATOS (MySQL)
+  # -----------------------------------------
+  db:
+    image: mysql:8.0
+    container_name: teodelina_mysql
+    restart: always # Si se cae, Docker la vuelve a prender sola
+    environment:
+      MYSQL_DATABASE: teodelina
+      MYSQL_ROOT_PASSWORD: mysql # Cambiá esto por tu contraseña real
+    ports:
+      - "3306:3306" # Exponemos el puerto para que puedas mirarla desde MySQL Workbench
+    volumes:
+      - db_data:/var/lib/mysql # ¡CLAVE! Guarda los datos en tu disco duro para que no se borren las tortas si apagás Docker
+
+  # -----------------------------------------
+  # 2. EL BACKEND (Java Spring Boot)
+  # -----------------------------------------
+  api:
+    build: 
+      context: ./backend # Le dice a Docker que vaya a la carpeta backend a leer el Dockerfile
+    container_name: teodelina_backend
+    restart: always
+    ports:
+      - "8080:8080" # El puerto por donde tu React le va a mandar las peticiones
+    environment:
+      # ¡TRUCO DE MAGIA! Sobreescribimos tu application.properties
+      # Notá que en vez de "localhost", ahora dice "db" (el nombre del servicio de arriba)
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/teodelina?useSSL=false&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+    depends_on:
+      - db # Java espera a que la base de datos exista para prenderse
+
+  # -----------------------------------------
+  # 3. EL FRONTEND (React + Nginx)
+  # -----------------------------------------
+  web:
+    build: 
+      context: ./frontend # Va a la carpeta frontend a leer el Dockerfile
+    container_name: teodelina_frontend
+    restart: always
+    ports:
+      - "80:80" # El puerto web oficial. ¡Vas a poder entrar escribiendo solo "localhost" en tu navegador!
+    depends_on:
+      - api # React espera a que Java esté prendido
+
+# Declaramos el "disco duro virtual" para que MySQL no pierda los datos
+volumes:
+  db_data:
