@@ -7,6 +7,7 @@ import Ventas from './pages/Ventas';
 import Produccion from './pages/Produccion';
 import './App.css';
 import Clientes from './pages/Cliente';
+import Registro from './pages/Registro'; // Ajustá la ruta según donde lo guardaste
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         {/* 1. LA PUERTA DE ENTRADA (Sin barra de navegación) */}
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/registro" element={<Registro />} />
 
         {/* 2. EL CENTRO DE COMANDO (Con la barra inferior) */}
         <Route
