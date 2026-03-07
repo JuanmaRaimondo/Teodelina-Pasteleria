@@ -23,7 +23,7 @@ export default function Registro() {
         body: JSON.stringify({
           username: username,
           password: password,
-          rol: 'ADMIN' // Por defecto creamos administradores
+          rol: 'USER' // Por defecto creamos administradores
         })
       });
 
