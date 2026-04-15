@@ -1,49 +1,58 @@
 # Teodelina-Pasteleria
-Backend en Java y Spring Boot para la automatización de una pastelería. Integra un sistema multi-agente de IA (Java ADK) para gestionar reservas en Google Calendar, analizar métricas de ventas y redactar posteos para Instagram con supervisión humana (HITL).
-# 🍰 Pastelería AI Backend
+Backend in Java and Spring Boot for automating a pastry shop. It integrates a multi-agent AI system (Java ADK) to manage reservations in Google Calendar, analyze sales metrics, and write Instagram posts with human supervision (HITL).
 
-Este es el backend principal para la gestión automatizada de una pastelería, construido con **Java** y **Spring Boot**. El sistema no solo expone APIs REST tradicionales, sino que integra un **Sistema Multi-Agente de Inteligencia Artificial (Nivel 3)** utilizando el Agent Development Kit (ADK) de Google.
+# 🍰 Pastry Shop AI Backend
 
-El objetivo del proyecto es liberar tiempo operativo delegando tareas de logística, análisis y marketing a agentes especializados, manteniendo siempre el control final sobre las acciones críticas.
+This is the main backend for the automated management of a pastry shop, built with **Java** and **Spring Boot**. The system not only exposes traditional REST APIs but also integrates a **Level 3 Multi-Agent Artificial Intelligence System** using Google's Agent Development Kit (ADK).
 
-## 🚀 Características Principales (V1.0)
+The project's objective is to free up operational time by delegating logistics, analysis, and marketing tasks to specialized agents, while always maintaining final control over critical actions.
 
-El sistema opera con un **Agente Coordinador** que delega tareas a tres herramientas principales:
+## 🚀 Main Features (V1.0)
 
-1. **🗓️ Gestión de Logística (Google Calendar):**
-   - Integración con la API de Google Calendar.
-   - Consulta de disponibilidad de fechas y agendamiento automático de entregas.
-   
-2. **📊 Análisis de Métricas (Dashboard):**
-   - Acceso a la base de datos relacional para obtener resúmenes de ventas.
-   - Identificación de productos más vendidos y rendimiento de campañas.
+The system operates with a **Coordinator Agent** who delegates tasks to three main tools:
 
-3. **📱 Marketing en Instagram con HITL (Humano en el Bucle):**
-   - Redacción automatizada de borradores para posteos e historias (ej. Campañas de Pascua).
-   - **Mecanismo de Seguridad:** El agente *no* publica directamente. Guarda el contenido en la base de datos bajo un estado de "PENDIENTE".
-   - Un endpoint específico permite al dueño revisar el borrador y aprobar la publicación final a través de la API de Meta.
+1. **🗓️ Logistics Management (Google Calendar):**
 
-## 🛠️ Stack Tecnológico
+- Integration with the Google Calendar API.
 
-* **Core:** Java 17+ y Spring Boot (Web, Data JPA, Security).
-* **Inteligencia Artificial:** Google Agent Development Kit (Java ADK).
-* **Base de Datos:** PostgreSQL / MySQL (Configurable).
-* **Integraciones Externas:** Google Calendar API, Meta Graph API (Instagram).
+- Checking date availability and automatic scheduling of deliveries.
 
-## 📂 Arquitectura del Proyecto
+2. **📊 Metrics Analysis (Dashboard):**
 
-El código sigue una Arquitectura Limpia estándar, separando la lógica de negocio de la lógica del agente:
+- Access to the relational database to obtain sales summaries.
 
-* `controller/`: Endpoints HTTP REST para el frontend y el chat con el agente.
-* `service/`: Lógica de negocio clásica. Aquí se definen los métodos transaccionales que luego se exponen como *Tools* (herramientas) para el ADK.
-* `repository/`: Interfaces de Spring Data JPA para el acceso a la base de datos.
-* `entity/`: Entidades del dominio (ej. `InstagramPostEntity`).
-* `dto/`: Objetos de transferencia de datos para la comunicación segura.
+- Identification of best-selling products and campaign performance.
 
-## ⚙️ Configuración Inicial (Getting Started)
+3. **📱 Instagram Marketing with HITL (Human in the Loop):**
 
-1. Clona el repositorio: `git clone https://github.com/tu-usuario/pasteleria-ai-backend.git`
-2. Configura las variables de entorno en tu archivo `application.yml` o `.env`:
-   - `GOOGLE_API_KEY`: Para el acceso al modelo LLM.
-   - `DB_URL`, `DB_USER`, `DB_PASSWORD`: Credenciales de la base de datos.
-3. Ejecuta la aplicación: `./mvnw spring-boot:run`
+- Automated drafting of posts and stories (e.g., Easter campaigns).
+
+- **Security Mechanism:** The agent *does not* publish directly. It saves the content in the database with a "PENDING" status.
+
+- A specific endpoint allows the owner to review the draft and approve the final release via the Meta API.
+
+## 🛠️ Technology Stack
+
+* **Core:** Java 17+ and Spring Boot (Web, Data JPA, Security).
+
+* **Artificial Intelligence:** Google Agent Development Kit (Java ADK).
+
+* **Database:** PostgreSQL / MySQL (Configurable).
+
+* **External Integrations:** Google Calendar API, Meta Graph API (Instagram).
+
+## 📂 Project Architecture
+
+The code follows a standard Clean Architecture, separating business logic from agent logic:
+
+* `controller/`: HTTP REST endpoints for the frontend and chat with the agent.
+
+* `service/`: Classic business logic. Transactional methods are defined here and then exposed as *Tools* for the ADK.
+
+* * `repository/`: Spring Data JPA interfaces for database access.
+
+* `entity/`: Domain entities
+
+* `dto/`: Data transfer objects for secure communication.
+
+
